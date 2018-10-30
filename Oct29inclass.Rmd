@@ -1,0 +1,183 @@
+---
+title: "Oct29inclass"
+author: "Zaid Sameer"
+date: '2018-10-29'
+output: html_document
+---
+### first exercise
+
+## Q1
+```{r}
+read_1 <- "CGCGCAGTAGGGCACATGCCAGGTGTCCGCCACTTGGTGGGCACACAGCCGATGACGAACGGGCTCCTTGACTATAATCTGACCCGTTTGCGTTTGGGTGACCAGGGAGAACTGGTGCTCCTGC"
+read_2 <- "AAAAAGCCAACCGAGAAATCCGCCAAGCCTGGCGACAAGAAGCCAGAGCAGAAGAAGACTGCTGCGGCTCCCGCTGCCGGCAAGAAGGAGGCTGCTCCCTCGGCTGCCAAGCCAGCTGCCGCTG"
+read_3  <- "CAGCACGGACTGGGGCTTCTTGCCGGCGAGGACCTTCTTCTTGGCATCCTTGCTCTTGGCCTTGGCGGCCGCGGTCGTCTTTACGGCCGCGGGCTTCTTGGCAGCAGCACCGGCGGTCGCTGGC"
+```
+Drosophila
+
+## Q2
+
+length will give the number of elements in the vector which is 3
+```{r}
+reads <- c(read_1, read_2, read_3)
+nchar(reads)
+length(reads)
+reads
+```
+## Q3
+The following code creates a new object (list) "read_1_split" which contains each single character of the read_1 sequence
+
+```{r}
+read_1_split <- strsplit(read_1, split = "", fixed = T) 
+class(read_1_split)
+```
+
+## Q4
+
+It is a list. 
+```{r}
+read_1_char <- as.character(unlist(read_1_split))
+class(read_1_char)
+length(read_1_char)
+```
+for loop
+
+```{r}
+for (i in read_1_split){
+	print(i)
+}
+
+for (i in read_1_char){
+	print(i)
+}
+table(read_1_char)
+site_freq <- table(read_1_char)/length(read_1_char)
+print(site_freq, digits = 2)
+site_freq
+```
+
+
+## Q6
+
+here
+
+```{r}
+
+BaseFrequencies <- function(x) {
+    if (mode(x) == "list") {
+    	tab <- table(x)/lengths(x)}
+    
+    else {
+    	tab <- table(x)/length(x)
+    }	
+   return(tab)
+}
+
+```
+
+## Q7 
+
+automation
+
+```{r}
+
+BaseFrequencies <- function(x) {
+    
+    # if it is a single string still
+    if (length(x) == 1 & mode(x) == "character") {
+    	x <- strsplit(x, split = "", fixed = T) 
+        x <- as.character(unlist(x))
+    }     
+    
+    if (mode(x) == "list") {
+    	tab <- table(x)/lengths(x)}
+    
+    else {
+    	tab <- table(x)/length(x)
+    }	
+   return(tab)
+}
+
+```
+
+
+## Q8
+
+```{r}
+basefreq <- sapply(reads, BaseFrequencies, USE.NAMES = F)
+print(basefreq, digits = 2)
+
+```
+
+
+### second exercise
+
+## Q1
+
+```{r}
+x <- 1
+
+for (i in 1:9) {
+    x <- x + 1
+    print(x)
+}
+
+x
+
+```
+
+**VS**
+
+```{r, error=TRUE}
+rm(x)
+
+countFun <-function(x)
+{
+
+  for (i in 1:10) {
+    x <- x + 1
+    print(x)
+}}
+
+countFun(1)
+x
+```
+
+
+## Q2
+
+
+```{r}
+
+# initialize a vector of length 1
+x <- NA
+
+#system.time( YOUR FOR LOOP HERE)
+
+system.time( 
+    for (i in 1:10000) {x[i] <- i^2})
+
+```
+## Q3
+
+```{r}
+# initialize a vector of length 10000
+rm(x)
+x <- rep(NA, 10000)
+
+#system.time( YOUR FOR LOOP HERE)
+
+system.time( for (i in 1:10000) {x[i] <- i^2})
+```
+
+this runs faster since we already created the x vector with 10000 elements
+
+## Q4
+
+```{r}
+rm(x)
+x <- 1:10000
+system.time(x <- x^2)
+```
+
+## Q5
+
